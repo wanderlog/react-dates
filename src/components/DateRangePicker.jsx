@@ -365,6 +365,7 @@ class DateRangePicker extends React.PureComponent {
             openDirection,
             anchorDirection,
             this.container,
+            appendToBody,
           )),
         },
       });
