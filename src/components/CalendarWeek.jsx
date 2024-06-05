@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { forbidExtraProps } from 'airbnb-prop-types';
 
-const propTypes = forbidExtraProps({
+// We don't use forbidExtraProps because it causes `npm run build:css` to fail
+// because some parent components pass `key={...}`
+const propTypes = {
   children: PropTypes.node.isRequired,
-});
+};
 
 export default function CalendarWeek({ children }) {
   return (
