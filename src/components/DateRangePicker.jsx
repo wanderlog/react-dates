@@ -313,8 +313,12 @@ class DateRangePicker extends React.PureComponent {
   }
 
   disableScroll() {
-    const { appendToBody, disableScroll: propDisableScroll } = this.props;
-    if (!appendToBody && !propDisableScroll) return;
+    const { disableScroll: propDisableScroll } = this.props;
+    // The code used to automatically disable scroll when `appendToBody` was
+    // set. On Macs, this caused a scrollbar to disappear and the page to shift.
+    // We removed that behavior and now just respect the `disableScroll` prop.
+    // https://github.com/react-dates/react-dates/issues/1697
+    if (!propDisableScroll) return;
     if (!this.isOpened()) return;
 
     // Disable scroll for every ancestor of this DateRangePicker up to the
