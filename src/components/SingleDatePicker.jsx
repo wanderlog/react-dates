@@ -697,12 +697,12 @@ export default withStyles(({ reactDates: { color, zIndex } }) => ({
     zIndex: zIndex + 2,
 
     ':hover': {
-      color: `darken(${color.core.grayLighter}, 10%)`,
+      filter: brightness(0.9),
       textDecoration: 'none',
     },
 
     ':focus': {
-      color: `darken(${color.core.grayLighter}, 10%)`,
+      filter: brightness(0.9),
       textDecoration: 'none',
     },
   },
