@@ -746,12 +746,16 @@ export default withStyles(({ reactDates: { color, zIndex } }) => ({
     zIndex: zIndex + 2,
 
     ':hover': {
-      color: `darken(${color.core.grayLighter}, 10%)`,
+      // Changed from `darken(${color.core.grayLighter}, 10%)` since
+      // latest versions of dart-sass don't support it.
+      filter: 'brightness(0.9)',
       textDecoration: 'none',
     },
 
     ':focus': {
-      color: `darken(${color.core.grayLighter}, 10%)`,
+      // Changed from `darken(${color.core.grayLighter}, 10%)` since
+      // latest versions of dart-sass don't support it.
+      filter: 'brightness(0.9)',
       textDecoration: 'none',
     },
   },
