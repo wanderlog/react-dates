@@ -1,3 +1,122 @@
+# Wanderlog Fork
+
+This is a Wanderlog fork of react-dates with some features and bugfixes.
+
+Loom guide (14 min): https://www.loom.com/share/9eef8ca839e441218647bbb66d514328
+
+See also: [Notion docs for maintaining forked packages](https://www.notion.so/wanderlog/Patching-packages-maintaining-a-fork-and-releasing-a-new-version-of-a-forked-library-ee42a1159fe641b686e3b121212d116f?source=copy_link#197f9a6861f680aa9da9ff6a322a845b)
+
+## Setup
+
+1. Clone the repo using the GitHub CLI or git
+2. Switch to the `wanderlog` branch
+3. Run `npm install`
+
+If you get the following error message when running `npm install`, try deleting `node_modules` and then re-running `npm install` again:
+
+```
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: react-dates@21.8.0
+npm error Found: eslint@6.8.0
+npm error node_modules/eslint
+npm error   dev eslint@"^8.7.0" from the root project
+npm error   peer eslint@">= 4.12.1" from babel-eslint@10.1.0
+npm error   node_modules/babel-eslint
+npm error   7 more (eslint-config-airbnb, eslint-config-airbnb-base, ...)
+npm error
+npm error Could not resolve dependency:
+npm error dev @babel/eslint-parser@"^7.16.5" from the root project
+npm error
+npm error Conflicting peer dependency: eslint@8.57.1
+npm error node_modules/eslint
+npm error   peer eslint@"^7.5.0 || ^8.0.0 || ^9.0.0" from @babel/eslint-parser@7.28.6
+npm error   node_modules/@babel/eslint-parser
+npm error     dev @babel/eslint-parser@"^7.16.5" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+```
+
+## Local development
+
+1. Build the package: `npm run build`
+   - This compiles the JavaScript and CSS into files in `lib/` and `esm/`
+2. Link the package for local testing: `yarn link`
+   - This will output a command you can run in other repos (like itineraries) to test your changes locally, e.g. `yarn link "react-dates"`
+   - Copy and paste the command into the itineraries repo
+   - After making changes in react-dates **and running `npm run build` again**, the changes are automatically synced without having to reinstall the local package in itineraries each time
+
+Example workflow:
+- Make a change to a file in react-dates
+- Run `npm run build` in react-dates
+- Test immediately in itineraries Storybook
+
+Note when creating PRs: Make sure the target branch is `wanderlog` **in our fork** - the GitHub UI defaults to targeting the upstream repo.
+
+## Unlinking
+
+1. Run `yarn unlink react-dates` in itineraries
+2. Run `yarn install --force` in itineraries to reinstall the regular version of react-dates
+3. Run `yarn unlink` in react-dates - do this last to avoid an error message in the first step
+
+## Running tests
+
+Run the react-dates unit tests with:
+
+```sh
+npm run build && npm run tests-only
+```
+
+Note: `npm run test` will fail because it also runs ESLint, and upstream has apparently introduced code that fails their own ESLint rules.
+
+## Releasing
+
+To build and release the Wanderlog version after your PR and MR have been approved:
+
+1. Merge your react-dates PR into the `wanderlog` branch through the GitHub UI - make sure to select "Squash and merge" in the dropdown
+2. In your local repo, pull the changes:
+```sh
+git checkout wanderlog
+git fetch
+git reset --hard origin/wanderlog
+```
+3. Switch to the `wanderlog-built` branch and copy down any commits you want to cherry-pick, specifically the one that edits the gitignore:
+```sh
+git checkout wanderlog-built
+git log
+```
+4. Reset to the latest commit from the `wanderlog` branch, cherry-pick the commit(s), and then build the package:
+```sh
+git reset --hard wanderlog
+git cherry-pick COMMIT 
+npm install
+npm run build
+```
+5. Update the version in `package.json` - the version scheme is `{upstream version}-wanderlog.{fork version}`, where fork version increments for each release, e.g. `21.8.0-wanderlog.4`
+6. Commit and force push (make sure the generated files in `lib` and `esm` are committed too, or update the gitignore if they aren't):
+```sh
+git add .
+git commit -m "[21.8.0-wanderlog.4] Description of changes" # replace 21.8.0-wanderlog.4 with the actual version
+git push --force-with-lease
+```
+7. Create and push a tag for the new version:
+```sh
+git tag v21.8.0-wanderlog.4
+git push origin v21.8.0-wanderlog.4
+```
+8. Create a GitHub release:
+   a. Visit https://github.com/wanderlog/react-dates/releases/new
+   b. Select the tag that you pushed
+   c. Set the title to the tag, and leave everything else blank
+   d. Click "Create release"
+
+---
+
+# Original README
+
 # react-dates <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
 
 [![Build Status][travis-svg]][travis-url]

@@ -4,7 +4,6 @@ import momentPropTypes from 'react-moment-proptypes';
 import { forbidExtraProps, mutuallyExclusiveProps, nonNegativeInteger } from 'airbnb-prop-types';
 import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 import moment from 'moment';
-import { addEventListener } from 'consolidated-events';
 
 import { CalendarDayPhrases } from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
@@ -124,20 +123,10 @@ class CalendarMonthGrid extends React.PureComponent {
     };
 
     this.isTransitionEndSupported = isTransitionEndSupported();
-    this.onTransitionEnd = this.onTransitionEnd.bind(this);
-    this.setContainerRef = this.setContainerRef.bind(this);
 
     this.locale = moment.locale();
     this.onMonthSelect = this.onMonthSelect.bind(this);
     this.onYearSelect = this.onYearSelect.bind(this);
-  }
-
-  componentDidMount() {
-    this.removeEventListener = addEventListener(
-      this.container,
-      'transitionend',
-      this.onTransitionEnd,
-    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -196,15 +185,6 @@ class CalendarMonthGrid extends React.PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    if (this.removeEventListener) this.removeEventListener();
-  }
-
-  onTransitionEnd() {
-    const { onMonthTransitionEnd } = this.props;
-    onMonthTransitionEnd();
-  }
-
   onMonthSelect(currentMonth, newMonthVal) {
     const newMonth = currentMonth.clone();
     const { onMonthChange, orientation } = this.props;
@@ -229,10 +209,6 @@ class CalendarMonthGrid extends React.PureComponent {
     }
     newMonth.set('year', newYearVal).subtract(initialMonthSubtraction, 'months');
     onYearChange(newMonth);
-  }
-
-  setContainerRef(ref) {
-    this.container = ref;
   }
 
   render() {
@@ -300,7 +276,6 @@ class CalendarMonthGrid extends React.PureComponent {
             width,
           },
         )}
-        ref={this.setContainerRef}
         onTransitionEnd={onMonthTransitionEnd}
       >
         {months.map((month, i) => {
