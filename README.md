@@ -12,6 +12,43 @@
 
 ![react-dates in action](https://raw.githubusercontent.com/airbnb/react-dates/master/react-dates-demo.gif)
 
+## Wanderlog - Maintaining
+
+### Building
+
+```sh
+npm install
+npm run build
+```
+
+If you get the following error message when running `npm install`, try deleting `node_modules` and then re-running the command:
+
+```
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: react-dates@21.8.0
+npm error Found: eslint@6.8.0
+npm error node_modules/eslint
+npm error   dev eslint@"^8.7.0" from the root project
+npm error   peer eslint@">= 4.12.1" from babel-eslint@10.1.0
+npm error   node_modules/babel-eslint
+npm error   7 more (eslint-config-airbnb, eslint-config-airbnb-base, ...)
+npm error
+npm error Could not resolve dependency:
+npm error dev @babel/eslint-parser@"^7.16.5" from the root project
+npm error
+npm error Conflicting peer dependency: eslint@8.57.1
+npm error node_modules/eslint
+npm error   peer eslint@"^7.5.0 || ^8.0.0 || ^9.0.0" from @babel/eslint-parser@7.28.6
+npm error   node_modules/@babel/eslint-parser
+npm error     dev @babel/eslint-parser@"^7.16.5" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+```
+
 ## Live Playground
 
 For examples of the datepicker in action, go to http://airbnb.io/react-dates.
