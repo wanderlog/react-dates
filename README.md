@@ -49,6 +49,13 @@ npm error this command with --force or --legacy-peer-deps
 npm error to accept an incorrect (and potentially broken) dependency resolution.
 ```
 
+### Running unit tests
+
+```
+npm run build
+npm run tests-only
+```
+
 ## Live Playground
 
 For examples of the datepicker in action, go to http://airbnb.io/react-dates.
