@@ -1,3 +1,12 @@
+# Wanderlog fork
+
+This is Wanderlog's fork of react-dates. Our changes live on the
+`wanderlog` branch. See the README there for how to release a new version
+and publish it to npm as
+[`@wanderlogapp/react-dates`](https://www.npmjs.com/package/@wanderlogapp/react-dates).
+
+--------------------------------------------------------------------------------
+
 # react-dates <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
 
 [![Build Status][travis-svg]][travis-url]
