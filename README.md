@@ -113,6 +113,37 @@ git push origin v21.8.0-wanderlog.4
    c. Set the title to the tag, and leave everything else blank
    d. Click "Create release"
 
+## Publishing to npm
+
+We publish this fork as
+[`@wanderlogapp/react-dates`](https://www.npmjs.com/package/@wanderlogapp/react-dates).
+After the steps above, make sure `npm whoami` prints `wanderlogapp` (if not,
+run `npm login`), then run:
+
+```shell
+VERSION='<the version you just released>' # e.g., VERSION='v21.8.0-wanderlog.5'
+
+# Make sure wanderlog-built has the latest release locally
+git fetch --tags
+git checkout wanderlog-built
+git reset --hard "$VERSION"
+
+# Rename the package for npm, and set its version (without the leading v)
+npm pkg set name='@wanderlogapp/react-dates' version="${VERSION#v}"
+
+# Commit and push the rename, so wanderlog-built matches what's on npm
+git commit -am "[$VERSION] Publish to npm as @wanderlogapp/react-dates"
+git push -f origin wanderlog-built
+
+# Publish to npm. --ignore-scripts skips the package's build and install
+# scripts, since the built files are already committed
+npm publish --access public --ignore-scripts
+```
+
+Then, in itineraries, bump the version in the `npm:@wanderlogapp/react-dates@…`
+alias and run `yarn install`. New `@wanderlogapp/*` versions skip the
+one-week age gate because of `npmPreapprovedPackages` in `.yarnrc.yml`.
+
 ---
 
 # Original README
